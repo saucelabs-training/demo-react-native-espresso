@@ -61,7 +61,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
     > you may need to select **Download** beside **Oreo 27** to enable the **Next** button
 12. Click **Finish** to create the emulated device
 13. Launch the virtual device in the Android Emulator by clicking on the green triangle icon. 
-14. In a shell, run: `react-native run-android`
+14. Navigate to the root directory `demo-react-native-espresso`, open a shell and run: `react-native run-android`
 
 > **WARNING**: if you don't manually launch the emulator, `run-android` returns:
 
