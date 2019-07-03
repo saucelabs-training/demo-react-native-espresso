@@ -1,4 +1,4 @@
-# React-Native Espresso Examples
+# React-Native Espresso Demo
 
 The demo present in [this repository]() allows you to run automated Espresso tests (using Sauce Runner) in order to validate your Android Native Test Framework Environment, as well as your [saucelabs.com](www.saucelabs.com) account credentials
 
@@ -24,110 +24,31 @@ In order to complete this exercise you must have the following installed on your
     * [React-Native-CLI v2.0.1](https://www.npmjs.com/package/react-native-cli)
     * [React-Native v0.57.4](https://www.npmjs.com/package/react-native)
 
-<br />
-
-## Project Setup
-1. Install homebrew: https://brew.sh/
-2. `brew install node`
-3. `brew install watchman`
-4. `npm install -g react-native-cli`
-5. Install [JDK8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-6. Install and configure [Android Studio](https://developer.android.com/studio/#downloads)
-    * Choose a "Custom" setup when prompted to select an installation type. Make sure the boxes next to all of the following are checked:
-      - Android SDK
-      - Android SDK Platform
-      - Performance (Intel ® HAXM)
-      - Android Virtual Device
-    * Open the SDK Manager (SDK Platforms section) and choose to install "Android 8.1 (Oreo)" - check the box that says "Show package details" and choose:
-      - Android SDK platform 27
-      - Google APIs Intel x86 Atom System Image
-      - DO NOT CLICK 'APPLY' YET!
-    * Also go to the SDK Manager's SDK Tools section - check the box that says "Show package details" and choose:
-      - "27.0.3" under the Android SDK Build-Tools tree
-      - Now click 'Apply' to pull down and install all the new dependencies
-    * Add the following lines to your $HOME/.bash_profile config file:
-```
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-```
-7. Open `./sample-app-ios/android` as a project in Android Studio
-8. Under the **Tools** menu, choose **AVD Manager**
-9. Click the **Create Virtual Device** button
-10. Choose a device definition (e.g. Pixel 2) and click **Next**
-11. Choose **Oreo** with **API 27** and click **Next**
-    > you may need to select **Download** beside **Oreo 27** to enable the **Next** button
-12. Click **Finish** to create the emulated device
-13. Launch the virtual device in the Android Emulator by clicking on the green triangle icon. 
-14. Navigate to the root directory `demo-react-native-espresso`, open a shell and run: `react-native run-android`
-
-> **WARNING**: if you don't manually launch the emulator, `run-android` returns:
-
-```
-FAILURE: Build failed with an exception.
-    
-* What went wrong:
-Execution failed for task ':app:installDebug'.
-    > com.android.builder.testing.api.DeviceException: No connected devices!
-
-* Try:
-Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
-
-* Get more help at https://help.gradle.org
-
-BUILD FAILED in 3m 35s
-45 actionable tasks: 24 executed, 21 up-to-date
-Could not install the app on the device, read the error above for details.
-Make sure you have an Android emulator running or a device connected and have
-set up your Android development environment:
-https://facebook.github.io/react-native/docs/getting-started.html
-```
-
-<br />
-
-## Bundling a React-Native App
-**...or more specifically, how to bundle a `reactive-native` android app to run on Sauce Labs virtual devices and emulators**. 
-
-In addition to mobile application testing on [Virtual Devices](https://wiki.saucelabs.com/display/DOCS/Automated+Mobile+App+Testing+on+Virtual+Devices+with+Sauce+Labs) with Appium, Sauce Labs also offers the ability to run tests with native frameworks such as:
-* Espresso (Android)
-* XCUITest (iOS)
-
-Which allows you to build apps in Java/Swift and acheive app > test synchronization.
-
-However, if you build your application with **`react-native`**, you must configure your Espresso test framework a bit differently. Furthermore, in order to test on Sauce Labs Virtual Devices, you must bundle your application in a specific way.
-
+Detailed installation instructions located [here](SETUP.md)
 <br />
 
 ## Running the Demo
 1. Clone [this repository]().
-2. Open Android Studio and import as a **New Project** with  **`/android`** as the root-level project directory
-2. Run the following command from the `./android/app` directory:
-    ```
-    keytool -genkey -v -keystore sLSwagLab.keystore -alias sLSwagLab -keyalg RSA -keysize 2048 -validity 10000
-    ```
-    Set the password as:
-    ```
-    sl.swag.lab
-    ```
-    > You can also view these details in `gradle.properties`
-    
-3. Ensure you've set the following in `build.gradle.signingConfigs.release`:
-    ```
-    if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-        storeFile file(MYAPP_RELEASE_STORE_FILE)
-        storePassword MYAPP_RELEASE_STORE_PASSWORD
-        keyAlias MYAPP_RELEASE_KEY_ALIAS
-        keyPassword MYAPP_RELEASE_KEY_PASSWORD
-    }
-    ```
-4. Ensure you've set the following in `build.gradle.buildTypes.release`:
-    ```
-    signingConfig signingConfigs.release
-    ```
+2. Open Android Studio and import as a **New Project** with  **`/android`** as the project directory
+3. In the root directory (`demo-react-native-espresso`), run the following command:
+```
+$ cd ../
+$ npm install
+```
+4. In Android Studio select **Build > Make Project** to build the application and install dependencies
 5. Export your [Sauce Labs Credentials as Environment Variables](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials)
-6. Navigate to the directory where you downloaded the Sauce Runner and create a `runner.sh` script:
+6. In the `android` directory, run the following commands to build the relevant `.apk` files:
+```
+$ cd android/
+$ ./gradlew assembleRelease
+$ ./gradlew assembleAndroidTest
+```
+    > Make sure you've set **$JAVA_HOME** correctly, and that you're using JDK 8.
+    > If you have multiple versions of Java, you may need to reset it with the following:
+    ```
+    $ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+    ```
+7. Navigate to the directory where you downloaded the Sauce Runner and create a `runner.sh` script:
     > In our example they exist in: **./android/app/build/outputs/apk**
     
     ```
@@ -135,12 +56,63 @@ However, if you build your application with **`react-native`**, you must configu
    -u $SAUCE_USERNAME \
    -k $SAUCE_ACCESS_KEY \
    -f espresso \
-   -a <your android-release.apk location> \
-   -t <your androidTest-debug.apk location> \
-   -d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=7.0' \
-   -d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=7.1'
+   -a ./release/app-release.apk \
+   -t ./androidTest/debug/app-debug-androidTest.apk \
+   -d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=8.0' \
+   -d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=8.1'
     ```
-7. Run the following command:
+8. Run the following command(s):
     ```
-    ./runner.sh
+    $ cd android/app/build/outputs/apk/ && ./runner.sh
+    ```
+    The console output should read like so:
+```
+2019-07-03 11:14:33 - [INFO] Using sauce-runner v0.1.1
+2019-07-03 11:14:33 - [INFO] Selected framework: espresso
+2019-07-03 11:14:33 - [INFO] Using user: $SAUCE_USERNAME
+2019-07-03 11:14:33 - [INFO] Using apikey: $SAUCE_ACCESS_KEY
+2019-07-03 11:14:33 - [INFO] Using local App: ./release/app-release.apk
+2019-07-03 11:14:33 - [INFO] Using local Test App: ./androidTest/debug/app-debug-androidTest.apk
+2019-07-03 11:14:33 - [INFO] No include-tests filters specified
+2019-07-03 11:14:33 - [INFO] No exclude-tests filters specified
+2019-07-03 11:14:33 - [INFO] Set device: Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0
+2019-07-03 11:14:33 - [INFO] Set device: Google Pixel GoogleAPI Emulator - 8.1
+2019-07-03 11:14:33 - [INFO] Trying to upload file ./release/app-release.apk to sauce-storage
+2019-07-03 11:14:35 - [INFO] File uploaded: app-release.apk($SAUCE_STORAGE_ID) - Size:10915077
+2019-07-03 11:14:35 - [INFO] Trying to upload file ./androidTest/debug/app-debug-androidTest.apk to sauce-storage
+2019-07-03 11:14:36 - [INFO] File uploaded: app-debug-androidTest.apk($SAUCE_STORAGE_ID) - Size:3205179
+2019-07-03 11:14:36 - [INFO] JUnit reports will be saved locally at the end of the tests
+2019-07-03 11:14:36 - [INFO] Jobs created
+2019-07-03 11:14:36 - [INFO] Jobs created
+2019-07-03 11:14:41 - [INFO] Getting job status
+2019-07-03 11:14:41 - [INFO] Job status: In progress
+2019-07-03 11:14:41 - [INFO] Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0 - Status: test queued
+2019-07-03 11:14:41 - [INFO] Google Pixel GoogleAPI Emulator - 8.1 - Status: test queued
+2019-07-03 11:14:56 - [INFO] Getting job status
+2019-07-03 11:14:57 - [INFO] Job status: In progress
+2019-07-03 11:14:57 - [INFO] Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0 - Status: test queued
+2019-07-03 11:14:57 - [INFO] Google Pixel GoogleAPI Emulator - 8.1 - Status: test queued
+2019-07-03 11:15:12 - [INFO] Getting job status
+2019-07-03 11:15:12 - [INFO] Job status: In progress
+2019-07-03 11:15:12 - [INFO] Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0 - Status: test session in progress
+2019-07-03 11:15:12 - [INFO] https://saucelabs.com/beta/tests/$JOB_ID/watch
+2019-07-03 11:15:12 - [INFO] Google Pixel GoogleAPI Emulator - 8.1 - Status: test session in progress
+2019-07-03 11:15:12 - [INFO] https://saucelabs.com/beta/tests/$JOB_ID/watch
+2019-07-03 11:15:27 - [INFO] Getting job status
+2019-07-03 11:15:27 - [INFO] Job status: Complete
+2019-07-03 11:15:27 - [INFO] Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0 - Status: test complete
+2019-07-03 11:15:27 - [INFO] Google Pixel GoogleAPI Emulator - 8.1 - Status: test complete
+2019-07-03 11:15:42 - [INFO] Tests results for Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0
+2019-07-03 11:15:42 - [INFO] com.swaglabsmobileapp.MainActivityTest.successfulLogin...pass
+2019-07-03 11:15:42 - [INFO] Total time: 9.611
+2019-07-03 11:15:42 - [INFO] Tests passed: 1
+2019-07-03 11:15:42 - [INFO] Tests failed: 0
+2019-07-03 11:15:42 - [INFO] Getting JUnit report for Samsung Galaxy S8 HD GoogleAPI Emulator - 8.0
+2019-07-03 11:15:42 - [INFO] Tests results for Google Pixel GoogleAPI Emulator - 8.1
+2019-07-03 11:15:42 - [INFO] com.swaglabsmobileapp.MainActivityTest.successfulLogin...pass
+2019-07-03 11:15:42 - [INFO] Total time: 14.576
+2019-07-03 11:15:42 - [INFO] Tests passed: 1
+2019-07-03 11:15:42 - [INFO] Tests failed: 0
+2019-07-03 11:15:42 - [INFO] Getting JUnit report for Google Pixel GoogleAPI Emulator - 8.1
+
     ```
