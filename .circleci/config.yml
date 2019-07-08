@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/android:api-25-alpha  # primary container for the build job
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: "Install Sauce Connect Client"
+          command: |
+            sudo apt-get install lsof
+            curl https://saucelabs.com/downloads/sc-4.4.12-linux.tar.gz -o saucelabs.tar.gz
+            tar -xzf saucelabs.tar.gz
+      - run:
+          name: "Launch Tunnel"
+          background: true
+          command: |
+            cd sc-*
+            bin/sc --pidfile /tmp/sc.pid1 -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -i demo-js-tunnel --no-remove-colliding-tunnels --se-port 4445
+      - run:
+          name: "Run Espresso Tests on Virtual Devices"
+          command: |
+            while ! lsof -i:4445 -t; do sleep 3; done
+            cd android/app/build/outputs/apk/
+            ./runner.sh
+      - run:
+          name: "Shut Down Sauce Connect Tunnel"
+          command: |
+            kill -9 `cat /tmp/sc.pid1`
