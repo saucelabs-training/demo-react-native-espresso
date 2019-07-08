@@ -45,11 +45,11 @@ $ cd android/
 $ ./gradlew assembleRelease
 $ ./gradlew assembleAndroidTest
 ```
-    > Make sure you've set **$JAVA_HOME** correctly, and that you're using JDK 8.
-    > If you have multiple versions of Java, you may need to reset it with the following:
-    ```
-    $ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-    ```
+> Make sure you've set **$JAVA_HOME** correctly, and that you're using JDK 8.
+> If you have multiple versions of Java, you may need to reset it with the following:
+```
+$ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+```
 7. Navigate to the directory where you downloaded the Sauce Runner and create a `runner.sh` script:
     > In our example they exist in: **./android/app/build/outputs/apk**
     
