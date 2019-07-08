@@ -117,4 +117,4 @@ $ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 2019-07-03 11:15:42 - [INFO] Tests failed: 0
 2019-07-03 11:15:42 - [INFO] Getting JUnit report for Google Pixel GoogleAPI Emulator - 8.1
 
-    ```
+```
