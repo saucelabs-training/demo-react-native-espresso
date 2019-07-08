@@ -1,15 +1,36 @@
 version: 2
 jobs:
+  shellcheck:
+    docker:
+     - image: koalaman/shellcheck-alpine:stable
+    steps:
+     - checkout
+     - run:
+          name: Check Scripts
+          command: |
+            find . -type f -name 'runner.sh' | wc -l
+            find . -type f -name 'runner.sh' | xargs shellcheck --external-sources
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/android:api-25-alpha  # primary container for the build job
-    environment:
-      JVM_OPTS: -Xmx3200m
+      - image: circleci/node:dubnium  # primary container for the build job
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: "Update NPM"
+          command: |
+            sudo npm install -g npm@latest
+      - restore_cache: # special step to restore the dependency cache
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: "Resolve Dependencies"
+          command: |
+            npm install
+      - save_cache: # special step to save the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
       - run:
           name: "Install Sauce Connect Client"
           command: |
@@ -26,9 +47,27 @@ jobs:
           name: "Run Espresso Tests on Virtual Devices"
           command: |
             while ! lsof -i:4445 -t; do sleep 3; done
-            cd android/app/build/outputs/apk/
-            ./runner.sh
+            cd .circleci/sauce-runner-virtual-0.1.1-linux/bin/
+            ./sauce-runner-virtual \
+            -u "$SAUCE_USERNAME" \
+            -k "$SAUCE_ACCESS_KEY" \
+            -f espresso \
+            -a ./app-release.apk \
+            -t ./app-debug-androidTest.apk \
+            -d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=8.0' \
+            -d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=8.1'
       - run:
           name: "Shut Down Sauce Connect Tunnel"
           command: |
             kill -9 `cat /tmp/sc.pid1`
+workflows:
+  version: 2
+  workflow:
+     jobs:
+       - shellcheck
+       - build:
+           requires:
+             - shellcheck
+           filters:
+             branches:
+               only: master
