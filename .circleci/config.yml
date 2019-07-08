@@ -47,6 +47,7 @@ jobs:
           name: "Run Espresso Tests on Virtual Devices"
           command: |
             while ! lsof -i:4445 -t; do sleep 3; done
+            cd .circleci/
             ./runner.sh
       - run:
           name: "Shut Down Sauce Connect Tunnel"
