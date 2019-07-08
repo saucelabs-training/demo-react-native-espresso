@@ -30,7 +30,7 @@ Detailed installation instructions located [here](SETUP.md)
 <br />
 
 ## Running the Demo
-1. Clone [this repository]().
+1. Clone [this repository](https://github.com/saucelabs-training/demo-react-native-espresso).
 2. Open Android Studio and import as a **New Project** with  **`/android`** as the project directory
 3. In the root directory (`demo-react-native-espresso`), run the following command:
 ```
