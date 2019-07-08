@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/saucelabs-training/demo-react-native-espresso.svg?style=svg)](https://circleci.com/gh/saucelabs-training/demo-react-native-espresso)
 
-The demo present in [this repository]() allows you to run automated Espresso tests (using Sauce Runner) in order to validate your Android Native Test Framework Environment, as well as your [saucelabs.com](www.saucelabs.com) account credentials
+The demo present in [this repository](https://github.com/saucelabs-training/demo-react-native-espresso) allows you to run automated Espresso tests (using Sauce Runner) in order to validate your Android Native Test Framework Environment, as well as your [saucelabs.com](www.saucelabs.com) account credentials
 
 <p align="center">
 <img src="assets/android-overview.gif"/>
