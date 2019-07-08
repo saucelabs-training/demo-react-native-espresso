@@ -51,23 +51,33 @@ $ ./gradlew assembleAndroidTest
 $ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 ```
 7. Navigate to the directory where you downloaded the Sauce Runner and create a `runner.sh` script:
-    > In our example they exist in: **./android/app/build/outputs/apk**
-    
-    ```
-    ./sauce-runner-virtual-0.1.1-osx/bin/sauce-runner-virtual \
-   -u $SAUCE_USERNAME \
-   -k $SAUCE_ACCESS_KEY \
-   -f espresso \
-   -a ./release/app-release.apk \
-   -t ./androidTest/debug/app-debug-androidTest.apk \
-   -d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=8.0' \
-   -d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=8.1'
-    ```
-8. Run the following command(s):
-    ```
-    $ cd android/app/build/outputs/apk/ && ./runner.sh
-    ```
-    The console output should read like so:
+
+> An example already exists in: **./android/app/build/outputs/apk**
+ 
+```
+./sauce-runner-virtual-0.1.1-osx/bin/sauce-runner-virtual \
+-u $SAUCE_USERNAME \
+-k $SAUCE_ACCESS_KEY \
+-f espresso \
+-a ./release/app-release.apk \
+-t ./androidTest/debug/app-debug-androidTest.apk \
+-d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=8.0' \
+-d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=8.1'
+```
+
+8. If you're running this demo on OSX, run the following command(s):
+```
+$ cd android/app/build/outputs/apk/ && ./runner.sh
+```
+
+9. If you're running this demo on Linux or Windows, copy your Sauce Runner directory to `/android/app/build/outputs/apk/` and edit the following line in `runner.sh`:
+
+```
+./sauce-runner-virtual-0.1.1-<windows or linux>/bin/sauce-runner-virtual \
+```
+
+10. The console output should read like so:
+
 ```
 2019-07-03 11:14:33 - [INFO] Using sauce-runner v0.1.1
 2019-07-03 11:14:33 - [INFO] Selected framework: espresso
