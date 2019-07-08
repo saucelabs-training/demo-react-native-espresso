@@ -47,7 +47,7 @@ jobs:
           name: "Run Espresso Tests on Virtual Devices"
           command: |
             while ! lsof -i:4445 -t; do sleep 3; done
-            cd .circleci/sauce-runner-virtual-0.1.1-osx/bin/
+            cd .circleci/sauce-runner-virtual-0.1.1-linux/bin/
             ./sauce-runner-virtual \
             -u "$SAUCE_USERNAME" \
             -k "$SAUCE_ACCESS_KEY" \

@@ -1,5 +1,5 @@
 #!/bin/bash
-	./sauce-runner-virtual-0.1.1-osx/bin/sauce-runner-virtual \
+	./sauce-runner-virtual-0.1.1-linux/bin/sauce-runner-virtual \
    -u "$SAUCE_USERNAME" \
    -k "$SAUCE_ACCESS_KEY" \
    -f espresso \
