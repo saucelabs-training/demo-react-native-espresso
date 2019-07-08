@@ -47,8 +47,15 @@ jobs:
           name: "Run Espresso Tests on Virtual Devices"
           command: |
             while ! lsof -i:4445 -t; do sleep 3; done
-            cd .circleci/
-            ./runner.sh
+            cd .circleci/sauce-runner-virtual-0.1.1-osx/bin/
+            ./sauce-runner-virtual \
+            -u "$SAUCE_USERNAME" \
+            -k "$SAUCE_ACCESS_KEY" \
+            -f espresso \
+            -a ./app-release.apk \
+            -t ./app-debug-androidTest.apk \
+            -d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=8.0' \
+            -d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=8.1'
       - run:
           name: "Shut Down Sauce Connect Tunnel"
           command: |
