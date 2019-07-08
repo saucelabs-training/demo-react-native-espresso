@@ -30,15 +30,19 @@ Detailed installation instructions located [here](SETUP.md)
 <br />
 
 ## Running the Demo
-1. Clone [this repository](https://github.com/saucelabs-training/demo-react-native-espresso).
-2. Open Android Studio and import as a **New Project** with  **`/android`** as the project directory
-3. In the root directory (`demo-react-native-espresso`), run the following command:
+> All command line examples are in UNIX
+1. Clone [this repository](https://github.com/saucelabs-training/demo-react-native-espresso):
+```
+$ git clone https://github.com/saucelabs-training/demo-react-native-espresso.git
+```
+2. Open Android Studio and import as a **New Project** with  **`/android`** as the project directory.
+3. In the root directory (`demo-react-native-espresso`), run the following commands:
 ```
 $ cd ../
 $ npm install
 ```
-4. In Android Studio select **Build > Make Project** to build the application and install dependencies
-5. Export your [Sauce Labs Credentials as Environment Variables](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials)
+4. In Android Studio select **Build > Make Project** to build the application and install any dependencies.
+5. Export your [Sauce Labs Credentials as Environment Variables](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Environment+Variables+for+Authentication+Credentials).
 6. In the `android` directory, run the following commands to build the relevant `.apk` files:
 ```
 $ cd android/
