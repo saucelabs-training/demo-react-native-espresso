@@ -56,25 +56,25 @@ $ export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 ```
 7. Navigate to the directory where you downloaded the Sauce Runner and create a `runner.sh` script:
 
-> An example already exists in: **./android/app/build/outputs/apk**
+> We recommend copying the Sauce Runner directory into your project root directory (i.e. `demo-react-native-espresso`)
  
 ```
 ./sauce-runner-virtual-0.1.1-osx/bin/sauce-runner-virtual \
 -u $SAUCE_USERNAME \
 -k $SAUCE_ACCESS_KEY \
 -f espresso \
--a ./release/app-release.apk \
--t ./androidTest/debug/app-debug-androidTest.apk \
+-a ../android/app/build/outputs/apk/release/app-release.apk \
+-t ../android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
 -d 'deviceName=Samsung Galaxy S8 HD GoogleAPI Emulator,platformVersion=8.0' \
 -d 'deviceName=Google Pixel GoogleAPI Emulator,platformVersion=8.1'
 ```
 
-8. If you're running this demo on OSX, run the following command(s):
+8. If you're running this demo on OSX, run the following command:
 ```
-$ cd android/app/build/outputs/apk/ && ./runner.sh
+$ ./runner.sh
 ```
 
-9. If you're running this demo on Linux or Windows, copy your Sauce Runner directory to `/android/app/build/outputs/apk/` and edit the following line in `runner.sh`:
+9. If you're running this demo on Linux or Windows, edit the following line in `runner.sh`:
 
 ```
 ./sauce-runner-virtual-0.1.1-<windows or linux>/bin/sauce-runner-virtual \
